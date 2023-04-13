@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-
+#from .models import Referral
 
 class UserDataSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -33,6 +33,15 @@ class SignupSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
+        #request =  self.context.get('request')
+        #referral_code = request.GET.get('ref')
+        #if referral_code:
+        #    try:
+        #        referrer = User.objects.get(referral_code=referral_code)
+        #        Referral.objects.create(referrer=referrer, referred_user=user)
+        #        # add bonus to referrer's account here
+        #    except User.DoesNotExist:
+        #        pass
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],

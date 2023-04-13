@@ -15,7 +15,7 @@ urlpatterns = [
     
     path('signup', views.UserSignup.as_view()),
     path('data', views.Cryptocurrencies, name='cryptocurrencies'),
-    
+
     
     path('portfolios/', views.CreatePortfolioView.as_view(), name='create-portfolio'),
     path('portfolios/<int:pk>/add-crypto/', views.AddCryptoView.as_view(), name='add-crypto'),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('portfolios/<int:pk>', views.PortfolioCryptoListView.as_view(), name='list-crypto'),
 
     
-    path('cryptos/', views.CryptoView.as_view(), name='list-cryptos'),
+    path('', views.CryptoView.as_view(), name='list-cryptos'),
     #path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),

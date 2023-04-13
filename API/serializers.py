@@ -10,20 +10,26 @@ class CryptoSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
+
 class PortfolioCryptoSerializer(serializers.ModelSerializer):
     crypto = CryptoSerializer(read_only=True)
+    value = serializers.DecimalField(max_digits=20, decimal_places=10, read_only=True)
     class Meta:
         model = PortfolioCrypto
-        fields = ('crypto', 'quantity')
+        fields = ('crypto', 'quantity','value')
 
 class PortfolioSerializer(serializers.ModelSerializer):
     user = UserDataSerializer(read_only = True)
     portfolio_crypto = PortfolioCryptoSerializer(many=True, read_only=True)
+    total_value = serializers.SerializerMethodField()
     class Meta:
         model = Portfolio
-        fields = ('id', 'quantity','name', 'description', 'user', 'portfolio_crypto')
-        extra_kwargs = {'quantity': {'required': False, 'default': 0}}
-        
+        fields = ('id','name', 'description', 'user', 'portfolio_crypto','total_value')
+
+    
+    def get_total_value(self, obj):
+        return sum([pc.value for pc in obj.portfolio_crypto.all()])    
+    
     def validate_name(self, value):
         request =  self.context.get('request')
         q = Portfolio.objects.filter(user=request.user)

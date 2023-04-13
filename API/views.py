@@ -128,3 +128,4 @@ class RemoveCryptoView(generics.DestroyAPIView):
 class CryptoView(generics.ListAPIView):
     queryset = Crypto.objects.all()
     serializer_class = CryptoSerializer
+    permission_classes = [permissions.AllowAny]
