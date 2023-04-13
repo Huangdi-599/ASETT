@@ -1,5 +1,6 @@
 # Ayulla Crypto Portfolio Management API
-This API allows users to manage their crypto-currency portfolios. It utilizes API calls to coingecko or any other cryptocurrency API to gather data that will be used to implement the necessary functionalities and additional features.
+This API allows users to manage their crypto-currency portfolios. 
+It utilizes API calls to coingecko API to gather data that will be used to implement the necessary functionalities and additional features.
 
 ## Features
 - User Authentication:
@@ -29,7 +30,7 @@ To run this API locally, follow these steps:
 - create a virtual env with `virtualenv env`
 - Activate your virtual environment with `./activate`
 - Install dependencies with `pip install -r requirements.txt`
-- Run database migrations with `python manage.py migrate`
+- Run database migrations with `python manage.py makemigrations` and `python manage.py migrate`
 - Start the server with `python manage.py runserver`
 
 
@@ -41,6 +42,11 @@ Only authenticated users are allowed to make requests to the API. Each request i
 This ensures that user data is kept private and secure, and that each user can only access the data that they are authorized to access.
 
 ## Endpoint Documentation
+- `GET /api/hompage/`
+    -Render all real time cryptocurrnecies
+
+- `GET /api/`
+    -Render all cryptocurrnecies in the database
 
 - `POST /api/signup/`
 Creates a new user account.
@@ -69,7 +75,7 @@ Creates a new user account.
 ```
 
 - `POST /api/login/`
-Logs a user in to the platform.
+    - Logs a user in to the platform.
 
 >Request Body:
 ```
@@ -80,7 +86,7 @@ Logs a user in to the platform.
 ```
 
 >Response:
-token (string): A JSON Web Token (JWT) that can be used to authenticate subsequent API calls.
+    - token (string): A JSON Web Token (JWT) that can be used to authenticate subsequent API calls.
 ```
 {
     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MTQ4MDYxNSwiaWF0IjoxNjgxMzk0MjE1LCJqdGkiOiI2MDg0ZTFhOTRjZDk0MzRlYmI0YTU0MWYwZDMwODc3YiIsInVzZXJfaWQiOjR9.mMayrSGpvfn9C6nXvkzc1g6ww542GHca9hXlALe0Fqs",
@@ -91,7 +97,7 @@ token (string): A JSON Web Token (JWT) that can be used to authenticate subseque
 }
 ```
 - `POST /api/password-reset/`
-Sends a password reset email to the specified user.
+    - Sends a password reset email to the specified user.
 
 >Request Body:
 email (string, required): The email address of the user.
@@ -111,11 +117,11 @@ email (string, required): The email address of the user.
 
 
 - `POST /api/password-reset/confirm/`
-Confirms a password reset request with a token.
+    - Confirms a password reset request with a token.
 
 >Request Body:
-token (string, required): The token sent in the password reset email.
-password (string, required): The user's desired new password.
+    - token (string, required): The token sent in the password reset email.
+    - password (string, required): The user's desired new password.
 ```
 {
     "token": "",
@@ -136,7 +142,7 @@ Logs the current user out of the platform.
 
 
 - `POST /api/portfolios/`
-    Create a portfolio for the current user.
+    - Create a portfolio for the current user.
 
 >Request Body:
     name: the name of the portfoilio or wallet
@@ -163,10 +169,10 @@ Logs the current user out of the platform.
 
 ```
 - `POST /api/portfolios/2/add-crypto`
-    Add a crypto that is to particular portfolio.
+    - Add a crypto that is to particular portfolio.
 >Request Body:
-    crypto_id : is the id of a crypto is already the database
-    quantity: is the amount of value of that crypto a user want to add
+    - crypto_id : is the id of a crypto is already the database
+    - quantity: is the amount of value of that crypto a user want to add
 {
     "crypto_id":4,
     "quantity": 2.666
@@ -253,9 +259,9 @@ N/A
 ```
 
 
-`DELETE /api/portfolios/1/remove-crypto/3/`
-    Removes a cryptocurrency from the user's portfolio
-    it takes the portfolio id and the id of the crypto to be remove
+- `DELETE /api/portfolios/1/remove-crypto/3/`
+    - Removes a cryptocurrency from the user's portfolio
+    - it takes the portfolio id and the id of the crypto to be remove
 
 
 

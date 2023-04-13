@@ -5,6 +5,8 @@ from rest_framework import status
 from django.urls import reverse
 from datetime import datetime, timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
 from .models import Portfolio, Crypto, PortfolioCrypto,PasswordResetToken
 from .auth_serializers import SignupSerializer
 # Create your tests here.
@@ -92,6 +94,28 @@ class LoginViewTest(APITestCase):
         self.assertNotIn('access', response.data)
         self.assertNotIn('refresh', response.data)
 
+class LogoutViewTestCase(APITestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='testuser',
+            email='testuser@example.com',
+            password='testpassword'
+        )
+        self.token = Token.objects.create(user=self.user)
+
+    def test_logout_view(self):
+        # Ensure the user is logged in
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+
+        # Make a POST request to the logout endpoint
+        url = reverse('logout')
+        response = self.client.post(url, format='json')
+
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Check that the token has been deleted
+        self.assertFalse(Token.objects.filter(user=self.user).exists())
 
 """
 PASSWORD RESET

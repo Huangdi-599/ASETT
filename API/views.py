@@ -3,7 +3,7 @@ import requests
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from rest_framework import generics,permissions
 from django.core.paginator import Paginator
@@ -33,6 +33,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class LoginView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+class LogoutView(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (JWTAuthentication)
+
+    def post(self, request, *args, **kwargs):
+        request.user.auth_token.delete()
+        return Response({"message": "You have been successfully logged out."})
 
 class UserSignup(generics.ListCreateAPIView):
     queryset = User.objects.all()
