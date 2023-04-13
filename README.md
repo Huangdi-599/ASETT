@@ -34,7 +34,11 @@ To run this API locally, follow these steps:
 
 
 ## Authentication
-To access the API, users must be authenticated with a valid API key, which can be obtained by registering for an account on the platform.
+To access the API, users must be authenticated with a valid Jwt Token, which can be obtained by registering for an account on the platform. We use Django Simple JWT to handle authentication, which provides JSON Web Tokens (JWTs) that can be included in the headers of API requests.
+
+Only authenticated users are allowed to make requests to the API. Each request is processed for the user that made the request, and users can only access data that they own or that is marked as public.
+
+This ensures that user data is kept private and secure, and that each user can only access the data that they are authorized to access.
 
 ## Endpoint Documentation
 
@@ -44,17 +48,24 @@ Creates a new user account.
 >Request Body:
 ```
 {
-    'username': 'testuser',
-    'email': 'testuser@example.com',
-    'password': 'testpassword123',
-    'password2': 'testpassword123',
-    'first_name': 'Test',
-    'last_name': 'User'
+    "username": "testuser",
+    "email": "testuser@example.com",
+    "password": "testpassword123",
+    "password2": "testpassword123",
+    "first_name": "Test",
+    "last_name": "User"
 }
 ```
 
 >Response:
 ```
+{
+    "id": 4,
+    "username": "testuser",
+    "email": "testuser@example.com",
+    "first_name": "Test",
+    "last_name": "User"
+}
 ```
 
 - `POST /api/login/`
@@ -71,6 +82,13 @@ Logs a user in to the platform.
 >Response:
 token (string): A JSON Web Token (JWT) that can be used to authenticate subsequent API calls.
 ```
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MTQ4MDYxNSwiaWF0IjoxNjgxMzk0MjE1LCJqdGkiOiI2MDg0ZTFhOTRjZDk0MzRlYmI0YTU0MWYwZDMwODc3YiIsInVzZXJfaWQiOjR9.mMayrSGpvfn9C6nXvkzc1g6ww542GHca9hXlALe0Fqs",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNDgwNjE1LCJpYXQiOjE2ODEzOTQyMTUsImp0aSI6Ijc2MzAzMTg4YmUxNDRjZTI4OGIwYzU2MTFiYTk4ZDZjIiwidXNlcl9pZCI6NH0.VD0w-4FwxzX91dMEn1ohz0twajfWZ_qOHGO2r6T2JdI",
+    "username": "testuser",
+    "email": "testuser@example.com",
+    "id": 4
+}
 ```
 - `POST /api/password-reset/`
 Sends a password reset email to the specified user.
@@ -79,14 +97,14 @@ Sends a password reset email to the specified user.
 email (string, required): The email address of the user.
 ```
 {
-    "email": ""
+    "email": "testuser@example.com"
 }
 ```
 
 >Response:
 ```
 {
-    "email": ""
+    "email": "testuser@example.com"
 }
 
 ```
@@ -238,7 +256,7 @@ N/A
 `DELETE /api/portfolios/1/remove-crypto/3/`
     Removes a cryptocurrency from the user's portfolio
     it takes the portfolio id and the id of the crypto to be remove
-    
+
 
 
 
