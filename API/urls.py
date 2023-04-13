@@ -11,9 +11,11 @@ from . import views
 
 urlpatterns = [
     path('login/', views.LoginView.as_view(), name='token_obtain_pair'),
-    #path('login/refresh', TokenRefreshView.as_view(), name='token_refresh'),
-    
     path('signup', views.UserSignup.as_view()),
+    path('password-reset/', views.PasswordResetRequestView.as_view(), name='password_reset'),
+    path('password-reset/confirm/', views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    
+    
     path('data', views.Cryptocurrencies, name='cryptocurrencies'),
 
     

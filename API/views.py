@@ -9,10 +9,9 @@ from rest_framework import generics,permissions
 from django.core.paginator import Paginator
 
 
-from .models import Crypto, Portfolio,PortfolioCrypto
-#from .serializers import 
+from .models import Crypto, Portfolio,PortfolioCrypto,PasswordResetToken
 from .auth_serializers import SignupSerializer,MyTokenObtainPairSerializer
-from .serializers import CryptoSerializer, PortfolioSerializer,PortfolioCryptoSerializer
+from .serializers import CryptoSerializer, PortfolioSerializer,PortfolioCryptoSerializer,PasswordResetRequestSerializer,PasswordResetConfirmSerializer
 
 def Cryptocurrencies(request):
     data = requests.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en').json()
@@ -129,3 +128,16 @@ class CryptoView(generics.ListAPIView):
     queryset = Crypto.objects.all()
     serializer_class = CryptoSerializer
     permission_classes = [permissions.AllowAny]
+    
+    
+class PasswordResetRequestView(generics.CreateAPIView):
+    serializer_class = PasswordResetRequestSerializer
+
+class PasswordResetConfirmView(generics.CreateAPIView):
+    serializer_class = PasswordResetConfirmSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'detail': 'Password reset successful.'})
