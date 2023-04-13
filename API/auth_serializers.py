@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
@@ -20,7 +20,7 @@ class SignupSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True) 
     class Meta:
         model = User
-        fields = ( 'id','username', 'password', 'password2', 'email', 'first_name', 'last_name','referral_link')
+        fields = ( 'id','username', 'password', 'password2', 'email', 'first_name', 'last_name')
         
         extra_kwargs = {
             'first_name': {'required': True},
@@ -43,3 +43,14 @@ class SignupSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+    
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['username'] = self.user.username
+        data['email'] = self.user.email
+        data['id'] = self.user.id
+        return data

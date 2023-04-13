@@ -67,3 +67,8 @@ Endpoint: /cryptos/
 Request Body: N/A
 
 Notes:
+
+{
+    "crypto_id":2,
+    "quantity": 1.5
+}

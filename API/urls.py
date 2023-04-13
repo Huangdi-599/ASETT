@@ -10,14 +10,18 @@ from . import views
 
 
 urlpatterns = [
+    path('login/', views.LoginView.as_view(), name='token_obtain_pair'),
+    #path('login/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    
     path('signup', views.UserSignup.as_view()),
     path('data', views.Cryptocurrencies, name='cryptocurrencies'),
     
     
-    path('portfolios/create', views.CreatePortfolioView.as_view(), name='create-portfolio'),
+    path('portfolios/', views.CreatePortfolioView.as_view(), name='create-portfolio'),
     path('portfolios/<int:pk>/add-crypto/', views.AddCryptoView.as_view(), name='add-crypto'),
     path('portfolios/<int:pk>/remove-crypto/<int:crypto_id>/', views.RemoveCryptoView.as_view(), name='remove-crypto'),
-    
+    path('portfolios/<int:pk>', views.PortfolioCryptoListView.as_view(), name='list-crypto'),
+
     
     path('cryptos/', views.CryptoView.as_view(), name='list-cryptos'),
     #path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

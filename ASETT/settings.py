@@ -132,11 +132,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    
-    #"DEFAULT_AUTHENTICATION_CLASSES": [
-    #    "rest_framework.authentication.SessionAuthentication",
-    #    "rest_framework_simplejwt.authentication.JWTAuthentication",
-    #],
+     'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     #"DEFAULT_PAGINATION_CLASS" : "rest_framework.pagination.LimitOffsetPagination",
     #"PAGE_SIZE": 10
 }
@@ -144,8 +146,9 @@ REST_FRAMEWORK = {
 """
 settings for jwt
 """
-#SIMPLE_JWT = {
-#    "AUTH_HEADER_TYPES":["Bearer"],
-#    "ACCESS_TOKEN_LIFETIME" : datetime.timedelta(seconds=30),
-#    "REFRESH_TOKEN_LIFETIME" : datetime.timedelta(seconds=60),
-#}
+SIMPLE_JWT = {
+    'SIGNING_KEY': SECRET_KEY,
+    "AUTH_HEADER_TYPES":["Bearer"],
+    "ACCESS_TOKEN_LIFETIME" : datetime.timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME" : datetime.timedelta(days=1),
+}
