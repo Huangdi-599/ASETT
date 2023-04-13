@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crypto List</title>
+</head>
+<body>
+  <h1>Crypto List</h1>
+  <ul>
+    {% for crypto in crypto_list %}
+      <li>{{ crypto.name }} ({{ crypto.symbol }}) - {{ crypto.quantity }} units at ${{ crypto.current_price }} each</li>
+    {% empty %}
+      <li>No crypto in portfolio yet.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

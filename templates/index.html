@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cryptocurrencies</title>
+    {% block styles %}
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    {% endblock %}
+  </head>
+  <body>
+    <h1>Cryptocurrencies</h1>
+    <form method="GET">
+        <input type="text" name="q" placeholder="Search for coins">
+        <button type="submit">Search</button>
+      </form>
+      
+      {% if query %}
+        <p>Results for '{{ query }}': {{ page_obj|length }} coins found</p>
+      {% endif %}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Price</th>
+          <th>market_cap</th>
+          <th>24HRS percentage change</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for coin in page_obj %}
+          <tr>
+            <td>{{ coin.name }}</td>
+            <td>{{ coin.symbol }}</td>
+            <td>${{ coin.current_price }}</td>
+            <td>{{ coin.market_cap }}</td>
+            <td>{{ coin.price_change_percentage_24h }}%</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+          {% endif %}
+
+          <span class="current-page">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+    </div>
+  </body>
+</html>

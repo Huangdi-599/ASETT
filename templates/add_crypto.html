@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Add Crypto</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for coin in data %}
+        <tr>
+          <td>{{ coin.name }}</td>
+          <td>{{ coin.symbol }}</td>
+          <td>${{ coin.current_price }}</td>
+          <td>
+            <form method="POST" action="{% url 'add-crypto' pk=portfolio.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="name" value="{{ coin.name }}">
+              <input type="hidden" name="symbol" value="{{ coin.symbol }}">
+              <input type="hidden" name="price" value="{{ coin.current_price }}">
+              <label for="quantity">Quantity:</label>
+              <input type="number" name="quantity" id="quantity" min="0" required>
+              <button type="submit">Add</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block styles %}
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    label {
+      margin-right: 5px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      margin-right: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,6 @@
+django-admin startproject ASETT
+pip install django-cors-headers
+pip install djangorestframework
+pip install djangorestframework-simplejwt
+pip install djangorestframework_simplejwt
+python manage.py startapp API
