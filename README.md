@@ -1,4 +1,4 @@
-# Ayulla Crypto Portfolio Management API
+# Crypto Portfolio Management API
 This API allows users to manage their crypto-currency portfolios. 
 It utilizes API calls to coingecko API to gather data that will be used to implement the necessary functionalities and additional features.
 
